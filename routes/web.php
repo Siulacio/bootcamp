@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\ProfileController;
+use App\Models\Chirp;
 use Illuminate\Support\Facades\Route;
 
 
@@ -18,7 +19,12 @@ Route::middleware('auth')->group(function () {
     })->name('chirps.index');
 
     Route::post('/chirps', function () {
-        return request('message');
+        Chirp::create([
+            'message' => request('message'),
+            'user_id' => auth()->id(),
+        ]);
+
+        to_route('chirps.index');
     });
 });
 
