@@ -38,9 +38,11 @@ class ChirpController extends Controller
         // TODO
     }
 
-    public function edit(Chirp $chirp)
+    public function edit(Chirp $chirp): View
     {
-        // TODO
+        return view('chirps.edit', [
+            'chirp' => $chirp,
+        ]);
     }
 
     public function update(Request $request, Chirp $chirp)
