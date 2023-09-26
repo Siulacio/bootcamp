@@ -3,13 +3,15 @@
 namespace App\Http\Controllers;
 
 use App\Models\Chirp;
+use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
+use Illuminate\View\View;
 
 class ChirpController extends Controller
 {
-    public function index()
+    public function index(): View
     {
-        // TODO
+        return view('chirps.index');
     }
 
     public function create()
@@ -17,9 +19,15 @@ class ChirpController extends Controller
         // TODO
     }
 
-    public function store(Request $request)
+    public function store(Request $request): RedirectResponse
     {
-        // TODO
+        Chirp::create([
+            'message' => $request->get('message'),
+            'user_id' => auth()->id(),
+        ]);
+
+        return to_route('chirps.index')
+            ->with('status', __('Chirp created successfully!'));
     }
 
     public function show(Chirp $chirp)
