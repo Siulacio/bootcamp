@@ -41,7 +41,7 @@
                             </div>
                             <p class="mt-4 text-lg text-gray-900 dark:text-gray-100">{{ $chirp->message }}</p>
                         </div>
-                        @if(auth()->user()->is($chirp->user))
+                        @can('update', $chirp)
                             <x-dropdown>
                                 <x-slot name="trigger">
                                     <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6 text-gray-500 dark:text-gray-300">
@@ -54,7 +54,7 @@
                                     </x-dropdown-link>
                                 </x-slot>
                             </x-dropdown>
-                        @endif
+                        @endcan
                     </div>
                 @endforeach
 
