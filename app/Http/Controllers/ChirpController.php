@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Chirp;
+use Illuminate\Auth\Access\AuthorizationException;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\View\View;
@@ -38,6 +39,9 @@ class ChirpController extends Controller
         // TODO
     }
 
+    /**
+     * @throws AuthorizationException
+     */
     public function edit(Chirp $chirp): View
     {
         $this->authorize('update', $chirp);
@@ -47,7 +51,10 @@ class ChirpController extends Controller
         ]);
     }
 
-    public function update(Request $request, Chirp $chirp)
+    /**
+     * @throws AuthorizationException
+     */
+    public function update(Request $request, Chirp $chirp): RedirectResponse
     {
         $this->authorize('update', $chirp);
 
@@ -61,8 +68,16 @@ class ChirpController extends Controller
             ->with('status', __('Chirp updated successfully!'));
     }
 
-    public function destroy(Chirp $chirp)
+    /**
+     * @throws AuthorizationException
+     */
+    public function destroy(Chirp $chirp): RedirectResponse
     {
-        // TODO
+        $this->authorize('delete', $chirp);
+
+        $chirp->delete();
+
+        return to_route('chirps.index')
+            ->with('status', __('Chirp deleted successfully!'));
     }
 }
